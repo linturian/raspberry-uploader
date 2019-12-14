@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('raspberry-uploader:server');
 var http = require('http');
+var ip = require("ip");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -89,4 +90,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log('Application is running on -- ' + ip.address() + port);
 }
