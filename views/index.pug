@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  form(method='post', enctype='multipart/form-data')
+    input(type='file', name='filetoupload')
+    input(type='submit', name='uploadimage', value='Upload Image')
+  each val in files
+    a(href='delete/'+val)
+      img.imageScr1(src='./'+val)
