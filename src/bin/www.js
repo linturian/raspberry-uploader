@@ -4,12 +4,13 @@
 /**
  * Module dependencies.
  */
+const dotenv = require('dotenv');
+dotenv.config();
 var app = require('../app');
 var debug = require('debug')('raspberry-uploader:server');
 var http = require('http');
 var ip = require("ip");
-const dotenv = require('dotenv');
-dotenv.config();
+
 
 /**
  * Get port from environment and store in Express.
