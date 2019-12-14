@@ -44,8 +44,8 @@ http.createServer(function (req, res) {
       });
  });
   } else if (req.url == '/all') {
-      console.log("I am here")
-      fs.readdir("./", function (err, files) {
+      console.log("Reading all files")
+      fs.readdir(thumbDrive + "/", function (err, files) {
       //handling error
       if (err) {
           return console.log('Unable to scan directory: ' + err);
