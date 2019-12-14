@@ -2,10 +2,9 @@ var http = require('http');
 var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
-
-var file = new static.Server('./');
-
 var thumbDrive = '/media/pi/0AA7-C1FF';
+var file = new static.Server(thumbDrive);
+
 
 function deleteFile(req, res){
   var deletePath = thumbDrive + req.url;
