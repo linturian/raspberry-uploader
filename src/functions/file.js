@@ -1,8 +1,8 @@
 import fs from 'fs';
 
 function listFiles() {
-  return fs.readdirSync(process.env.UPLOAD_PATH)
-    .filter(f => f.endsWith(".JPG"));
+  return fs.readdirSync(process.env.STORAGE_PATH)
+    .filter(f => f.endsWith(".jpg") || f.endsWith(".png"));
 }
 
 function deleteFile(filePath) {
