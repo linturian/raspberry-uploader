@@ -5,10 +5,12 @@
   "scripts": {
     "start": "npm run prod",
     "server": "babel-node ./src/bin/www",
-    "dev": "NODE_ENV=dev npm-run-all server",
+    "server:prod": "node ./dist/bin/www",
+    "dev": "NODE_ENV=development npm-run-all server",
     "clean": "rimraf dist",
+    "cpdir" : "cp -r ./src/views  ./dist/views",
     "build": "babel ./src --out-dir dist",
-    "prod": "NODE_ENV=prod npm-run-all clean build server:prod",
+    "prod": "NODE_ENV=production npm-run-all clean build cpdir server:prod",
     "watch": "nodemon"
   },
   "dependencies": {
