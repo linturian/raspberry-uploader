@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
+
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
-var debug = require('debug')('picture-sender:server');
+var debug = require('debug')('raspberry-uploader:server');
 var http = require('http');
+const dotenv = require('dotenv');
+dotenv.config();
 
 /**
  * Get port from environment and store in Express.
