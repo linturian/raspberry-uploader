@@ -6,7 +6,7 @@ function listFiles() {
 }
 
 function deleteFile(filePath) {
-  fs.unlink(process.env.UPLOAD_PATH + filePath, function (err) {
+  fs.unlink(process.env.STORAGE_PATH + filePath, function (err) {
     if (err) throw err;
   });
 }
