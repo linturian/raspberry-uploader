@@ -2,7 +2,8 @@ import fs from 'fs';
 
 function listFiles() {
   return fs.readdirSync(process.env.STORAGE_PATH)
-    .filter(f => f.endsWith(".jpg") || f.endsWith(".png"));
+    .filter(f => f.endsWith(".jpg") || f.endsWith(".png"))
+    .map(f => process.env.STORAGE_PATH + f);
 }
 
 function deleteFile(filePath) {
