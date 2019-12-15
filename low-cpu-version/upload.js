@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
 
-var thumbDrive = '/media/pi/0AA7-C1FF';
+var thumbDrive = '/media/pi/0AA7-C1FF/';
 var file = new static.Server(thumbDrive);
 
 
