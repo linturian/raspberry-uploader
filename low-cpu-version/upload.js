@@ -44,7 +44,7 @@ http.createServer(function (req, res) {
       });
  });
   } else if (req.url == '/') {
-      console.log("Reading all files")
+      console.log("Reading all files @" + thumbDrive)
       fs.readdir(thumbDrive, function (err, files) {
       //handling error
       if (err) {
