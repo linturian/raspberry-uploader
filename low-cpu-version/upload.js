@@ -59,11 +59,11 @@ http.createServer(function (req, res) {
             // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
             var localPath = thumbDrive+ currFile
             if (currFile.includes(".jpg") || currFile.includes(".png") || currFile.includes(".jpeg")){
-              res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
-              // res.write('<img src="' + currFile +'">')
+              res.write('<a href="' + localPath +'/delete"><img src="' + localPath + '" style="width: 100%">' + '</a>')
+              // res.write('<img src="' + localPath +'">')
               res.write('<br/>')
               res.write('<br/>')
-              console.log(currFile); 
+              console.log(localPath); 
             }
         });
       res.end();
