@@ -3,13 +3,10 @@ var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
 
-var file = new static.Server('./');
-
 var thumbDrive = '/media/pi/0AA7-C1FF';
 
 function deleteFile(req, res){
   var deletePath = thumbDrive + req.url.replace("/delete","");
-  file.serve(req, res);
   console.log("Deleting")
   console.log(req.url)
   fs.unlink(deletePath, function (err) {
@@ -83,6 +80,5 @@ http.createServer(function (req, res) {
     res.write('<center><form action="fileupload" method="post" enctype="multipart/form-data">');
     res.write('<h1>Page_Not_Found</h1>')
     res.write('</form></center>');
-    file.serve(req, res);
   }
 }).listen(8080); 
