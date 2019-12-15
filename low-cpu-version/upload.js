@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
 
-var thumbDrive = '/media/pi/0AA7-C1FF/';
+var thumbDrive = '/media/pi/0AA7-C1FF';
 var file = new static.Server(thumbDrive);
 
 
@@ -54,10 +54,10 @@ http.createServer(function (req, res) {
         } 
         res.writeHead(200, {'Content-Type': 'text/html'});
         //listing all files using forEach
-        console.log("files" + files)
         files.forEach(function (currFile) {
             // Do whatever you want to do with the currFile
             // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
+            var localPath = thumbDrive+ currFile
             if (currFile.includes(".jpg") || currFile.includes(".png") || currFile.includes(".jpeg")){
               res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
               // res.write('<img src="' + currFile +'">')
