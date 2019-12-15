@@ -44,25 +44,26 @@ http.createServer(function (req, res) {
       });
  });
   } else if (req.url == '/') {
-      console.log("Reading all files @" + thumbDrive)
+      console.log("Reading all files @ " + thumbDrive)
       fs.readdir(thumbDrive, function (err, files) {
       //handling error
-      if (err) {
-          return console.log('Unable to scan directory: ' + err);
-      } 
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      //listing all files using forEach
-      files.forEach(function (currFile) {
-          // Do whatever you want to do with the currFile
-          // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
-          if (currFile.includes(".jpg") || currFile.includes(".png")){
-            res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
-            // res.write('<img src="' + currFile +'">')
-            res.write('<br/>')
-            res.write('<br/>')
-            console.log(currFile); 
-          }
-      });
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        } 
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        //listing all files using forEach
+        console.log("files" + files)
+        files.forEach(function (currFile) {
+            // Do whatever you want to do with the currFile
+            // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
+            if (currFile.includes(".jpg") || currFile.includes(".png")){
+              res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
+              // res.write('<img src="' + currFile +'">')
+              res.write('<br/>')
+              res.write('<br/>')
+              console.log(currFile); 
+            }
+        });
       res.end();
       console.log("End Reading All Files");
     })
