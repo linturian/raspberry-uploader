@@ -2,19 +2,23 @@ var http = require('http');
 var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
-var thumbDrive = '/media/pi/0AA7-C1FF';
-var file = new static.Server(thumbDrive);
 
+var file = new static.Server('./');
+
+var thumbDrive = '/media/pi/0AA7-C1FF';
 
 function deleteFile(req, res){
-  var deletePath = thumbDrive + req.url;
+  var deletePath = thumbDrive + req.url.replace("/delete","");
   file.serve(req, res);
-  console.log(deletePath)
+  console.log("Deleting")
+  console.log(req.url)
   fs.unlink(deletePath, function (err) {
     if (err) throw err;
     // if no error, file has been deleted successfully
     console.log('File deleted!');
     });
+  res.writeHead(302, {'Location': '/' });
+  res.end();
 }
 
 http.createServer(function (req, res) {
@@ -38,39 +42,41 @@ http.createServer(function (req, res) {
    res.end();
    });
  });
- 
-      
+
+
       });
  });
-  } else if (req.url == '/all') {
+  } else if (req.url == '/') {
       console.log("Reading all files")
-      fs.readdir(thumbDrive + "/", function (err, files) {
+      fs.readdir("./", function (err, files) {
       //handling error
       if (err) {
           return console.log('Unable to scan directory: ' + err);
       } 
       res.writeHead(200, {'Content-Type': 'text/html'});
       //listing all files using forEach
-      files.forEach(function (file) {
-          // Do whatever you want to do with the file
-          // res.write('<a href="' + file +'"'+'>'+ file+'</a><br/>')
-          if (file.includes(".jpg") || file.includes(".png")){
-            res.write('<a href="' + file +'"><img src="' + file + '" style="width: 100%">' + '</a>')
+      files.forEach(function (currFile) {
+          // Do whatever you want to do with the currFile
+          // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
+          if (currFile.includes(".jpg") || currFile.includes(".png")){
+            res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
+            // res.write('<img src="' + currFile +'">')
             res.write('<br/>')
             res.write('<br/>')
-            console.log(file); 
+            console.log(currFile); 
           }
       });
-      res.end()
+      res.end();
+      console.log("End Reading All Files");
     })
-  } else if (req.url == '/') {
+  } else if (req.url == '/upload') {
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.write('<center><form action="fileupload" method="post" enctype="multipart/form-data">');
       res.write('<input type="file" name="filetoupload" style="font-size:5em"><br/><br/><br/><br/>');
       res.write('<input type="submit" style="font-size:5em">');
       res.write('</form></center>');
       return res.end();
-  } else if (req.url.includes(".jpg") || req.url.includes(".png")) {
+  } else if (req.url.includes("delete")) {
         deleteFile(req, res);
   } else {
     res.writeHead(200, {'Content-Type': 'text/html'});
@@ -79,4 +85,4 @@ http.createServer(function (req, res) {
     res.write('</form></center>');
     file.serve(req, res);
   }
-}).listen(8080);
+}).listen(8080); 
