@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
 
-var thumbDrive = '/media/pi/0AA7-C1FF';
+var thumbDrive = '/media/pi/0AA7-C1FF/';
 
 function deleteFile(req, res){
   var deletePath = thumbDrive + req.url.replace("/delete","");
@@ -25,7 +25,7 @@ http.createServer(function (req, res) {
       console.log(files)
       var oldpath = files.filetoupload.path;
       var newpath = './' + files.filetoupload.name;
-      var tmp = thumbDrive + '/' + files.filetoupload.name;
+      var tmp = thumbDrive + files.filetoupload.name;
       fs.rename(oldpath, newpath, function (err) {
         if (err) throw err;
 
@@ -45,7 +45,7 @@ http.createServer(function (req, res) {
  });
   } else if (req.url == '/') {
       console.log("Reading all files")
-      fs.readdir("./", function (err, files) {
+      fs.readdir(thumbDrive, function (err, files) {
       //handling error
       if (err) {
           return console.log('Unable to scan directory: ' + err);
