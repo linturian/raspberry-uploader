@@ -56,7 +56,7 @@ http.createServer(function (req, res) {
         files.forEach(function (currFile) {
             // Do whatever you want to do with the currFile
             // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
-            if (currFile.includes(".jpg") || currFile.includes(".png")){
+            if (currFile.includes(".jpg") || currFile.includes(".png") || currFile.includes(".jpeg")){
               res.write('<a href="./' + currFile +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
               // res.write('<img src="' + currFile +'">')
               res.write('<br/>')
