@@ -1,0 +1,20 @@
+{
+  "name": "raspberry-uploader",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npm run prod",
+    "server": "babel-node ./src/bin/www",
+    "server:prod": "node ./dist/bin/www",
+    "clean": "rimraf dist",
+    "cpdir": "cp -r ./src/views  ./dist/views",
+    "build": "babel ./src --out-dir dist",
+    "prod": "NODE_ENV=production npm-run-all clean build cpdir server:prod",
+    "watch": "nodemon"
+  },
+  "dependencies": {
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
+    "node-static": "0.7.11"
+  }
+}

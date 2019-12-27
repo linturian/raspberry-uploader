@@ -3,18 +3,17 @@ var formidable = require('formidable');
 var fs = require('fs');
 var static = require('node-static');
 
-var thumbDrive = '/media/pi/0AA7-C1FF';
+var thumbDrive = '/home/terry/Pictures/';
 var file = new static.Server(thumbDrive);
 
 
 function deleteFile(req, res){
-  var deletePath = thumbDrive + req.url.replace("/delete","");
-  console.log("Deleting")
-  console.log(req.url)
+  var deletePath = req.url.replace("/delete","");
+  console.log(new Date(),"Deleting", req.url)
   fs.unlink(deletePath, function (err) {
     if (err) throw err;
     // if no error, file has been deleted successfully
-    console.log('File deleted!');
+    console.log(new Date(),'File deleted! - ', deletePath);
     });
   res.writeHead(302, {'Location': '/' });
   res.end();
@@ -24,7 +23,7 @@ http.createServer(function (req, res) {
   if (req.url == '/fileupload') {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-      console.log(files)
+      console.log(new Date(), files)
       var oldpath = files.filetoupload.path;
       var newpath = './' + files.filetoupload.name;
       var tmp = thumbDrive + files.filetoupload.name;
@@ -33,7 +32,7 @@ http.createServer(function (req, res) {
 
   fs.copyFile(newpath, tmp, (err) => {
     if (err) throw err;
-    console.log('source.txt was copied to destination.txt');
+    console.log(new Date(),'File was copied to ', thumbDrive);
 
    fs.unlink(newpath, (err) => {
      if (err) throw err;
@@ -46,28 +45,32 @@ http.createServer(function (req, res) {
       });
  });
   } else if (req.url == '/') {
-      console.log("Reading all files @ " + thumbDrive)
+      console.log(new Date(),"Reading all files @ " + thumbDrive)
       fs.readdir(thumbDrive, function (err, files) {
       //handling error
         if (err) {
-            return console.log('Unable to scan directory: ' + err);
+            return console.log(new Date(),'Unable to scan directory: ' + err);
         } 
         res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write('<html>');
+        res.write('<head>');
+        res.write('<meta http-equiv="content-type" content="text/html; charset=windows-1252">');
+        res.write('</head');
+        res.write('<body>');
         //listing all files using forEach
         files.forEach(function (currFile) {
-            // Do whatever you want to do with the currFile
-            // res.write('<a href="' + currFile +'"'+'>'+ currFile+'</a><br/>')
             var localPath = thumbDrive+ currFile
             if (currFile.includes(".jpg") || currFile.includes(".png") || currFile.includes(".jpeg")){
-              res.write('<a href="' + localPath +'/delete"><img src="file://' + localPath + '" style="width: 100%">' + '</a>')
-              // res.write('<img src="' + localPath +'">')
+              res.write('<a href="' + localPath +'/delete"><img src="' + currFile + '" style="width: 100%">' + '</a>')
               res.write('<br/>')
-              res.write('<br/>')
-              console.log(localPath); 
+              res.write('<br/>'); 
             }
         });
+        res.write('</body>');
+        res.write('</html>');
       res.end();
-      console.log("End Reading All Files");
+      console.log(new Date(),"End Reading All Files");
+      console.log(new Date())
     })
   } else if (req.url == '/upload') {
       res.writeHead(200, {'Content-Type': 'text/html'});
@@ -79,9 +82,7 @@ http.createServer(function (req, res) {
   } else if (req.url.includes("delete")) {
         deleteFile(req, res);
   } else {
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<center><form action="fileupload" method="post" enctype="multipart/form-data">');
-    res.write('<h1>Page_Not_Found</h1>')
-    res.write('</form></center>');
+    console.log(new Date(),"Serving image file" + req.url);
+    file.serveFile(req.url, 200, {}, req, res)
   }
 }).listen(8080); 
